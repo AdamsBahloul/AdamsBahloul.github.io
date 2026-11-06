@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141417"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </linearGradient>
+    <pattern id="techGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#25252d" stroke-width="0.8"/>
+      <circle cx="0" cy="0" r="1.5" fill="#3a3a46"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#020108" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="1000" fill="url(#bgGrad)"/>
+  <rect width="800" height="1000" fill="url(#techGrid)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+
+  <!-- Technical Framing & Coordinate Marks -->
+  <g stroke="#4f4f60" stroke-width="1.2" opacity="0.8">
+    <line x1="40" y1="40" x2="100" y2="40"/>
+    <line x1="40" y1="40" x2="40" y2="100"/>
+    <line x1="760" y1="40" x2="700" y2="40"/>
+    <line x1="760" y1="40" x2="760" y2="100"/>
+    <line x1="40" y1="960" x2="100" y2="960"/>
+    <line x1="40" y1="960" x2="40" y2="900"/>
+    <line x1="760" y1="960" x2="700" y2="960"/>
+    <line x1="760" y1="960" x2="760" y2="900"/>
+  </g>
+
+  <!-- Engineering Overlay Text -->
+  <text x="60" y="70" font-family="monospace" font-size="14" fill="#a1a1aa" letter-spacing="3">FIG. 01 // PROFILE ARCHITECTURE</text>
+  <text x="60" y="90" font-family="monospace" font-size="11" fill="#71717a">SYS.ID: ADAM_BAHLOUL // EMBEDDED &amp; INTELLIGENT SYSTEMS</text>
+  
+  <text x="740" y="70" font-family="monospace" font-size="14" fill="#a1a1aa" text-anchor="end" letter-spacing="2">CET [UTC+1]</text>
+  <text x="740" y="90" font-family="monospace" font-size="11" fill="#71717a" text-anchor="end">STATUS: READY_FOR_INTERNSHIP</text>
+
+  <!-- Central Architectural Monoline Silhouette & Geometry -->
+  <g transform="translate(400, 480)">
+    <!-- Concentric radar circles -->
+    <circle r="260" fill="none" stroke="#272733" stroke-width="1" stroke-dasharray="4 6"/>
+    <circle r="200" fill="none" stroke="#323242" stroke-width="1.2"/>
+    <circle r="140" fill="none" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.4"/>
+
+    <!-- Crosshair axes -->
+    <line x1="-300" y1="0" x2="300" y2="0" stroke="#252530" stroke-width="1"/>
+    <line x1="0" y1="-300" x2="0" y2="300" stroke="#252530" stroke-width="1"/>
+
+    <!-- Stylized Minimalist Head & Shoulders Silhouette -->
+    <path d="M -180 340 C -180 230 -110 200 -50 180 L -50 110 C -90 90 -100 20 -100 -50 C -100 -160 0 -210 0 -210 C 0 -210 100 -160 100 -50 C 100 20 90 90 50 110 L 50 180 C 110 200 180 230 180 340 Z" 
+          fill="#1c1c24" stroke="#e4e4e7" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Glasses / Vision Vector -->
+    <rect x="-70" y="-75" width="55" height="34" rx="4" fill="#0d0d12" stroke="#60a5fa" stroke-width="2.5"/>
+    <rect x="15" y="-75" width="55" height="34" rx="4" fill="#0d0d12" stroke="#60a5fa" stroke-width="2.5"/>
+    <line x1="-15" y1="-58" x2="15" y2="-58" stroke="#60a5fa" stroke-width="2.5"/>
+
+    <!-- Neural / Systems Nodes -->
+    <circle cx="-130" cy="80" r="4" fill="#60a5fa"/>
+    <circle cx="130" cy="80" r="4" fill="#60a5fa"/>
+    <line x1="-130" y1="80" x2="-80" y2="140" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <line x1="130" y1="80" x2="80" y2="140" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <circle cx="-80" cy="140" r="5" fill="#e4e4e7"/>
+    <circle cx="80" cy="140" r="5" fill="#e4e4e7"/>
+    <line x1="-80" y1="140" x2="80" y2="140" stroke="#e4e4e7" stroke-width="1.5"/>
+
+    <!-- Monogram Mark -->
+    <text x="0" y="270" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#f4f4f5" text-anchor="middle" letter-spacing="8">AB</text>
+    <text x="0" y="295" font-family="monospace" font-size="11" fill="#71717a" text-anchor="middle" letter-spacing="3">EMBEDDED SYSTEMS / UI-UX</text>
+  </g>
+
+  <!-- Bottom Technical Legend -->
+  <g transform="translate(60, 920)" font-family="monospace" font-size="11" fill="#71717a">
+    <text x="0" y="0">CORE: C/C++ // PYTHON // ROS2 // LINUX // THREE.JS</text>
+    <text x="0" y="20">FOCUS: EMBEDDED SYSTEMS &amp; INTELLIGENT PHYSICAL COMPUTING</text>
+  </g>
+</svg>

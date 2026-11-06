@@ -1,0 +1,24 @@
+{
+  "name": "adam-bahloul-portfolio",
+  "version": "1.0.0",
+  "description": "Personal internship portfolio for Adam Bahloul — Embedded Systems, Robotics, AI, and Creative Development",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "lint": "node scripts/test.js",
+    "preview": "node server.js"
+  },
+  "keywords": [
+    "portfolio",
+    "embedded-systems",
+    "robotics",
+    "creative-developer",
+    "adam-bahloul"
+  ],
+  "author": "Adam Bahloul",
+  "license": "MIT"
+}
+
