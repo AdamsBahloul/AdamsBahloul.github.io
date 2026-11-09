@@ -1,0 +1,38 @@
+.curtain {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: transparent;
+  color: #fff;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.panel {
+  position: absolute;
+  inset-block: 0;
+  width: calc(12.5% + 1px);
+  background: #111;
+  will-change: transform;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(3rem, 10vw, 10rem);
+  font-weight: 650;
+  letter-spacing: -.075em;
+  line-height: .95;
+  text-align: center;
+  text-transform: uppercase;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain { display: none; }
+}

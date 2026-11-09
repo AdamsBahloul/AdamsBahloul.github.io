@@ -1,0 +1,2 @@
+.button { border: 0; border-radius: 999px; padding: .75rem 1rem; background: var(--color-ink); color: var(--color-paper); font: inherit; cursor: pointer; }
+.button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }

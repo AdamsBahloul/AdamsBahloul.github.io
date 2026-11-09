@@ -1,0 +1,2 @@
+@use '../../styles/abstracts/mixins' as *;
+.page-section { min-height: 55vh; padding-block: var(--space-section); }.page-section h1 { @include heading-display; }

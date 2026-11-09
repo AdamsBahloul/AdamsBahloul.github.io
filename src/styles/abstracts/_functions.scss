@@ -1,0 +1,3 @@
+@use 'sass:math';
+/// Convert a pixel design token to rem (assuming a 16px root size).
+@function rem($pixels) { @return math.div($pixels, 16) * 1rem; }

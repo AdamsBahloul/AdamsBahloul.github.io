@@ -1,0 +1,4 @@
+@use 'breakpoints' as bp;
+@mixin heading-display { margin: .25em 0 .35em; font-size: var(--text-display); line-height: .98; letter-spacing: -.07em; font-weight: var(--font-weight-medium); }
+@mixin focus-ring { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+@mixin content-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; @include bp.down('tablet') { grid-template-columns: repeat(6, minmax(0, 1fr)); } }

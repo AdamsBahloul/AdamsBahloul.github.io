@@ -1,0 +1,7 @@
+:root {
+  --color-paper: #fff; --color-ink: #171714; --color-muted: #777770; --color-line: #dcdad3; --color-accent: #e65f3e;
+  --container-width: 80rem; --space-gutter: clamp(1.25rem, 5vw, 5rem); --space-section: clamp(5rem, 12vw, 11rem);
+  --font-sans: 'Geist Variable', Geist, sans-serif; --font-weight-regular: 400; --font-weight-medium: 550; --font-weight-bold: 650;
+  --text-small: .875rem; --text-body: 1rem; --text-lead: clamp(1.125rem, 2vw, 1.5rem); --text-display: clamp(3.5rem, 10vw, 9rem);
+  --line-body: 1.55; --tracking-tight: -.04em; --ease-standard: cubic-bezier(.22, 1, .36, 1);
+}

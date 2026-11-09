@@ -1,0 +1,76 @@
+.section {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+
+.stage {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(16rem, 32vh, 22rem) 2.6vw 3.2vh;
+}
+
+.statement {
+  width: min(86vw, 92rem);
+  margin: 0;
+  margin-inline: auto;
+  font-family: var(--font-sans);
+  font-size: clamp(2.4rem, 5vw, 6.2rem);
+  font-weight: 650;
+  line-height: 1.02;
+  letter-spacing: -.075em;
+  text-align: center;
+}
+
+.statement span {
+  display: inline-block;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.supportingCopy {
+  position: relative;
+  right: 10vw;
+  width: min(38rem, 72vw);
+  margin: clamp(3rem, 7vh, 6rem) auto 0;
+  color: #555;
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.25vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.65;
+
+}
+
+@media (max-width: 62rem) {
+  .stage { padding-inline: 3.5vw; }
+  .statement {
+    width: min(90vw, 68rem);
+    font-size: clamp(2.4rem, 6.8vw, 4.8rem);
+    letter-spacing: -.07em;
+  }
+}
+
+@media (max-width: 42rem) {
+  .stage {
+    min-height: 100svh;
+    padding: 29vh 1.25rem 4vh;
+  }
+  .statement {
+    width: min(100%, 34rem);
+    font-size: clamp(2.45rem, 11.3vw, 4rem);
+    line-height: 1.02;
+  }
+  .supportingCopy {
+    width: min(100%, 32rem);
+    margin: 4rem auto 0;
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statement span { will-change: auto; }
+}
