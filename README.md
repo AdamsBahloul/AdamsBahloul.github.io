@@ -29,4 +29,4 @@ React and React DOM render the interface; TypeScript checks source; Vite develop
 
 ## GitHub Pages
 
-The included GitHub Actions workflow deploys the Vite build to GitHub Pages and creates a `404.html` fallback for direct visits to `/work`, `/about` and `/playground`. In the repository settings, enable GitHub Pages and select **GitHub Actions** as the source.
+The included GitHub Actions workflow deploys the Vite build to GitHub Pages and creates a `404.html` fallback for direct visits to `/work`, `/about` and `/playground`. In **Settings → Pages**, set **Source** to **GitHub Actions**; do not select **Deploy from a branch**, because that serves the unbuilt TypeScript source and results in a blank page. The site uses the domain root (`/`) as its Vite base because this repository is a user site and has a custom domain.
