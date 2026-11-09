@@ -1,7 +1,7 @@
 .section {
   width: min(15.5em, 100%);
   font-size: clamp(1.31rem, 1vw, 1.4375rem);
-  color: #000;
+  color: var(--color-ink);
   pointer-events: none;
 }
 

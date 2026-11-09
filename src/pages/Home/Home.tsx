@@ -72,11 +72,13 @@ export default function Home() {
     const media = gsap.matchMedia(section);
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const wordmark = section.querySelector('[data-home-wordmark]');
+      const creditLine = section.querySelector('[data-home-credit-line]');
       const location = locationRef.current;
       const cards = Array.from(stack.querySelectorAll<HTMLElement>('[data-home-card]'));
-      if (!wordmark || !location || !cards.length) return;
+      if (!wordmark || !creditLine || !location || !cards.length) return;
 
       gsap.set(wordmark, { scale: 1.24, opacity: 0, transformOrigin: 'center center' });
+      gsap.set(creditLine, { yPercent: 105, autoAlpha: 0 });
       gsap.set(location, { scale: 1.28, transformOrigin: 'center center' });
       gsap.set(cards, { css: { '--entrance-y': '100vh', '--scroll-y': '0px' } });
 
@@ -86,6 +88,7 @@ export default function Home() {
       let locationFade: gsap.core.Tween | undefined;
       let headerMotionStarted = false;
       let cardsStarted = false;
+      let creditStarted = false;
       const startHeaderMotion = () => {
         if (headerMotionStarted) return;
         headerMotionStarted = true;
@@ -105,13 +108,20 @@ export default function Home() {
         }, '+=0.42');
       };
 
+      const startCredit = () => {
+        if (creditStarted) return;
+        creditStarted = true;
+        gsap.to(creditLine, { yPercent: 0, autoAlpha: 1, duration: 0.46, ease: 'power3.out' });
+      };
+
       const onHeaderEntranceStart = () => startHeaderMotion();
-      const onHeaderEntranceComplete = () => startCards();
+      const onHeaderEntranceComplete = () => { startCards(); startCredit(); };
       window.addEventListener('portfolio:header-entrance-start', onHeaderEntranceStart);
       window.addEventListener('portfolio:header-entrance-complete', onHeaderEntranceComplete);
       if (document.documentElement.dataset.headerEntranceComplete === 'true') {
         startHeaderMotion();
         startCards();
+        startCredit();
       }
 
       const scrollExit = ScrollTrigger.create({
@@ -211,6 +221,7 @@ export default function Home() {
         to="/work"
         aria-label="Explore selected work"
         data-home-stack
+        data-ui-sound
       >
         {images.map((image, index) => (
           <span
@@ -235,6 +246,7 @@ export default function Home() {
         alt="Adam Bahloul"
         data-home-wordmark
       />
+      <p className="home-page__credit"><span className="home-page__credit-clip"><span className="home-page__credit-line" data-home-credit-line>© 2024-26</span></span></p>
 
     </section>
     <div className="home-page__section-gap" aria-hidden="true" />

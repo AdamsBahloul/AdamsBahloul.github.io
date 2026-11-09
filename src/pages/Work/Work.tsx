@@ -62,6 +62,34 @@ export default function Work() {
   }, []);
 
   useEffect(() => {
+    const onGestureDrag = (event: Event) => {
+      const { deltaX, deltaY } = (event as CustomEvent<{ deltaX: number; deltaY: number }>).detail;
+      velocity.current = { x: 0, y: 0 };
+      moveCamera(target.current.x - deltaX, target.current.y - deltaY);
+    };
+    const resetWorkCanvas = () => {
+      velocity.current = { x: 0, y: 0 };
+      wheelDistance.current = 0;
+      nextAxis.current = 'x';
+      axis.current = 'x';
+      moveCamera(WORLD.width / 2, WORLD.height / 2);
+    };
+    const onGestureScroll = (event: Event) => {
+      const { deltaY } = (event as CustomEvent<{ deltaY: number }>).detail;
+      velocity.current.x = 0;
+      velocity.current.y = Math.max(-42, Math.min(42, velocity.current.y + deltaY * 0.3));
+    };
+    window.addEventListener('portfolio:gesture-drag', onGestureDrag);
+    window.addEventListener('portfolio:gesture-scroll', onGestureScroll);
+    window.addEventListener('portfolio:work-reset', resetWorkCanvas);
+    return () => {
+      window.removeEventListener('portfolio:gesture-drag', onGestureDrag);
+      window.removeEventListener('portfolio:gesture-scroll', onGestureScroll);
+      window.removeEventListener('portfolio:work-reset', resetWorkCanvas);
+    };
+  }, [moveCamera]);
+
+  useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
     const onWheel = (event: WheelEvent) => {
@@ -121,7 +149,7 @@ export default function Work() {
           const key = `${project.slug}-${repeatX}-${repeatY}`;
           return <Link to={`/work/${project.slug}`} className={`work-tile ${hovered === key ? 'is-hovered' : ''}`} key={key}
             style={{ left: x, top: y, width: CARD.width, height: CARD.height, '--tile-index': index } as React.CSSProperties}
-            onMouseEnter={() => setHovered(key)} onMouseLeave={() => setHovered(null)} aria-label={`View ${project.title}`}>
+            onMouseEnter={() => setHovered(key)} onMouseLeave={() => setHovered(null)} aria-label={`View ${project.title}`} data-ui-sound>
             <span className="work-tile__image"><img src={project.coverImage} alt={project.coverAlt} draggable="false" /></span>
             <span className="work-tile__caption"><span className="work-tile__title">{Array.from(project.title).map((letter, i) => <span className="work-tile__letter" key={`${letter}-${i}`}><span>{letter}</span><span>{letter}</span></span>)}</span><span className="work-tile__number">{String(index + 1).padStart(2, '0')}</span></span>
           </Link>;

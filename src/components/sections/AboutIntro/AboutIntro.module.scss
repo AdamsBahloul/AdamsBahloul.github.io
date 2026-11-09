@@ -2,8 +2,8 @@
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background: #fff;
-  color: #000;
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 .stage {
@@ -35,7 +35,7 @@
 .supportingCopy {
   width: min(36rem, 72vw);
   margin: clamp(2rem, 5vh, 4rem) auto 0;
-  color: #555;
+  color: var(--color-muted);
   font-family: var(--font-sans);
   font-size: clamp(1rem, 1.25vw, 1.35rem);
   font-weight: 400;

@@ -58,7 +58,7 @@ export default function ProjectShowcase() {
             const nextProject = projects[(index + 1) % projects.length];
             return (
               <li className={styles.item} key={project.slug}>
-                <Link className={styles.row} to="/work" aria-label={`${project.title}, ${project.category}`}>
+                <Link className={styles.row} to="/work" aria-label={`${project.title}, ${project.category}`} data-ui-sound>
                   <span className={styles.number}>[{String(index + 1).padStart(2, '0')}]</span>
                   <RollingTitle title={project.title} />
                   <span className={styles.category}>[{project.category}]</span>

@@ -118,6 +118,7 @@ export default function Header() {
               className={styles.link}
               aria-label={item.label}
               data-header-nav-item
+              data-ui-sound
               onClick={() => setMenuOpen(false)}
             >
               <RollingLabel label={item.label} />
