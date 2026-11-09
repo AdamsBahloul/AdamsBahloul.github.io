@@ -1,2 +1,21 @@
-@use '../../styles/abstracts/mixins' as *;
-.page-section { min-height: 55vh; padding-block: var(--space-section); }.page-section h1 { @include heading-display; }
+.work-index-main { height: 100svh; margin-top: -7rem; overflow: hidden; overscroll-behavior: none; }
+.work-canvas { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--color-paper); touch-action: none; cursor: grab; user-select: none; }
+.work-canvas.is-dragging { cursor: grabbing; }
+.work-canvas__word { position: absolute; z-index: 0; left: 50%; top: 47%; transform: translate(-50%, -50%); color: var(--color-ink); font-size: clamp(8rem, 17vw, 22rem); font-weight: 700; letter-spacing: -.095em; line-height: .8; pointer-events: none; }
+.work-canvas__hint { position: absolute; z-index: 0; left: 61%; top: 66%; margin: 0; color: var(--color-ink); font-size: clamp(1rem, 1.5vw, 1.65rem); font-weight: 650; letter-spacing: -.04em; pointer-events: none; }
+.work-canvas__items { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.work-tile { position: absolute; display: block; overflow: hidden; color: inherit; text-decoration: none; cursor: pointer; pointer-events: auto; }
+.work-tile__image { position: absolute; inset: 0; overflow: hidden; background: #eceae6; }
+.work-tile__image img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1); transition: transform 1s cubic-bezier(.2,.75,.25,1), filter .7s ease; will-change: transform; }
+.work-tile:hover .work-tile__image img, .work-tile:focus-visible .work-tile__image img { transform: scale(1.055); }
+.work-tile__caption { position: absolute; inset: auto 0 0; display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.25rem; color: white; background: linear-gradient(transparent, rgb(0 0 0 / .55)); opacity: 0; transform: translateY(.35rem); transition: opacity .45s ease, transform .55s cubic-bezier(.2,.75,.25,1); }
+.work-tile:hover .work-tile__caption, .work-tile:focus-visible .work-tile__caption { opacity: 1; transform: translateY(0); }
+.work-tile__title { display: flex; overflow: hidden; font-size: clamp(1.1rem, 2vw, 2rem); font-weight: 550; letter-spacing: -.05em; line-height: 1; }
+.work-tile__letter { display: inline-block; overflow: hidden; height: 1.05em; }
+.work-tile__letter > span { display: block; transition: transform .55s cubic-bezier(.2,.75,.25,1); }
+.work-tile__letter > span + span { margin-top: -.02em; }
+.work-tile:hover .work-tile__letter > span, .work-tile:focus-visible .work-tile__letter > span { transform: translateY(-100%); }
+.work-tile__number { font-size: .75rem; }
+@media (max-width: 42rem) { .work-index-main { margin-top: -6.5rem; } }
+@media (max-width: 800px) { .work-canvas__word { font-size: 33vw; } .work-canvas__hint { left: 50%; top: auto; bottom: 8%; transform: translateX(-50%); white-space: nowrap; } }
+@media (prefers-reduced-motion: reduce) { .work-tile__image img, .work-tile__caption, .work-tile__letter > span { transition-duration: .01ms; } }

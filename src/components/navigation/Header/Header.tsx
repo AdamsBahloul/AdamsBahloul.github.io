@@ -50,29 +50,31 @@ export default function Header() {
       const logo = header.querySelector('[data-header-logo]');
       const navItems = Array.from(header.querySelectorAll<HTMLElement>('[data-header-nav-item]'));
       const menu = header.querySelector('[data-menu-toggle]');
-      const entrants = [logo, ...navItems, menu].filter((element): element is Element => Boolean(element));
+      const isMobile = window.matchMedia('(max-width: 42rem)').matches;
+      const visibleNavItems = isMobile ? [] : navItems;
+      const entrants = [logo, ...visibleNavItems, menu].filter((element): element is Element => Boolean(element));
 
       gsap.set(entrants, { autoAlpha: 0 });
-      if (logo) gsap.set(logo, { x: '-24vw', y: '-70vh', scale: 1, transformOrigin: 'top left' });
-      navItems.forEach((item) => gsap.set(item, {
-        x: '24vw',
-        y: '-70vh',
+      if (logo) gsap.set(logo, { x: '-1.25rem', y: '-0.75rem', scale: 1, transformOrigin: 'top left' });
+      visibleNavItems.forEach((item) => gsap.set(item, {
+        x: '1.25rem',
+        y: '-0.75rem',
         scale: 1,
         transformOrigin: 'top right',
       }));
-      if (menu) gsap.set(menu, { x: '24vw', y: '-70vh', scale: 1, transformOrigin: 'top right' });
+      if (menu) gsap.set(menu, { x: '1.25rem', y: '-0.75rem', scale: 1, transformOrigin: 'top right' });
 
       const timeline = gsap.timeline({ onStart: () => window.dispatchEvent(new Event(HEADER_ENTRANCE_START_EVENT)), onComplete: completeEntrance });
       timeline.set(entrants, { autoAlpha: 1 }, 0);
-      if (logo) timeline.to(logo, { x: 0, y: 0, duration: 0.9, ease: 'power3.inOut' }, 0);
-      navItems.forEach((item, index) => timeline.to(item, {
+      if (logo) timeline.to(logo, { x: 0, y: 0, duration: 0.72, ease: 'power3.out' }, 0);
+      visibleNavItems.forEach((item, index) => timeline.to(item, {
         x: 0,
         y: 0,
         scale: 1,
-        duration: 0.9,
-        ease: 'power3.inOut',
+        duration: 0.72,
+        ease: 'power3.out',
       }, 0.04 + index * 0.025));
-      if (menu) timeline.to(menu, { x: 0, y: 0, scale: 1, duration: 0.9, ease: 'power3.inOut' }, 0.04);
+      if (menu) timeline.to(menu, { x: 0, y: 0, scale: 1, duration: 0.72, ease: 'power3.out' }, 0.04);
 
       return () => timeline.kill();
     });
@@ -102,7 +104,7 @@ export default function Header() {
 
   const showMenu = () => setMenuOpen((open) => !open);
 
-  return <header ref={headerRef} className={styles.header}>
+  return <header ref={headerRef} className={`${styles.header} ${menuOpen ? styles.menuIsOpen : ''}`}>
     <Container className={styles.inner}>
       <nav
         id="primary-navigation"
@@ -110,7 +112,7 @@ export default function Header() {
         aria-label="Main navigation"
       >
         <ul className={styles.links}>
-          {navigation.map((item) => <li key={item.href}>
+          {navigation.map((item, index) => <li key={item.href} style={{ '--menu-index': index } as CSSProperties}>
             <NavLink
               to={item.href}
               className={styles.link}
@@ -125,7 +127,7 @@ export default function Header() {
       </nav>
       <button
         ref={menuToggleRef}
-        className={styles.menuToggle}
+        className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ''}`}
         type="button"
         data-menu-toggle
         aria-expanded={menuOpen}

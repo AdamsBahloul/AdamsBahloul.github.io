@@ -31,7 +31,7 @@
 
 @media (max-width: 42rem) {
   .section { font-size: clamp(1rem, 4.5vw, 1.125rem); }
-  .paragraph { line-height: 1.5; }
+  .paragraph { font-size: 1rem; line-height: 1.42; }
 }
 
 @media (prefers-reduced-motion: reduce) {

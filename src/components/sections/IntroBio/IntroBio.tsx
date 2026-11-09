@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, ScrollTrigger } from '../../../animations/gsapConfig';
+import { gsap } from '../../../animations/gsapConfig';
 import { useScrollAnimation } from '../../../hooks/useScrollAnimation';
 import styles from './IntroBio.module.scss';
 
@@ -85,17 +85,29 @@ export default function IntroBio({ ready }: { ready: boolean }) {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       let lines: Line[] = [];
       let entrance: gsap.core.Timeline | undefined;
-      let fadeTrigger: ReturnType<typeof ScrollTrigger.create> | undefined;
       let fadeTween: gsap.core.Tween | undefined;
-      let topReplay: ReturnType<typeof ScrollTrigger.create> | undefined;
       let entranceComplete = false;
       let hasScrolledAway = false;
+      let scrollListenerAttached = false;
       let resizeFrame = 0;
+
+      const onWindowScroll = () => {
+        const isAway = window.scrollY > 24;
+        if (isAway === hasScrolledAway) return;
+        hasScrolledAway = isAway;
+        if (!entranceComplete) return;
+        fadeTween?.kill();
+        fadeTween = gsap.to(lines.flatMap((line) => line.animated), {
+          autoAlpha: isAway ? 0 : 1,
+          y: isAway ? -18 : 0,
+          duration: 0.42,
+          ease: 'power2.out',
+          overwrite: true,
+        });
+      };
 
       const build = (playEntrance: boolean) => {
         entrance?.kill();
-        fadeTrigger?.kill();
-        fadeTrigger = undefined;
         fadeTween?.kill();
         fadeTween = undefined;
         restoreParagraph(paragraph, original);
@@ -121,42 +133,18 @@ export default function IntroBio({ ready }: { ready: boolean }) {
         });
         lines.forEach((line, index) => {
           // Indent the first animated row to leave room for the independent header logo.
-          if (index === 0) line.clip.style.marginLeft = '4.1em';
+          if (index === 0) line.clip.style.marginLeft = window.matchMedia('(max-width: 42rem)').matches ? '4.5em' : '4.1em';
           entrance?.fromTo(line.content, { yPercent: 105 }, { yPercent: 0, duration: 0.46 }, index * 0.055);
           if (line.animated.length) entrance?.to(line.animated, { autoAlpha: 1, duration: 0.38 }, index * 0.055);
         });
       };
 
       const attachScrollFade = () => {
-        if (!fadeTrigger) {
-          fadeTrigger = ScrollTrigger.create({
-            start: 1,
-            once: true,
-            onEnter: () => {
-              hasScrolledAway = true;
-              fadeTween = gsap.to(lines.flatMap((line) => line.animated), {
-                autoAlpha: 0,
-                y: -25,
-                duration: 0.24,
-                ease: 'power2.out',
-                overwrite: true,
-              });
-            },
-          });
+        if (!scrollListenerAttached) {
+          window.addEventListener('scroll', onWindowScroll, { passive: true });
+          scrollListenerAttached = true;
         }
-
-        if (!topReplay) {
-          topReplay = ScrollTrigger.create({
-            start: 0,
-            end: 1,
-            onLeaveBack: () => {
-              hasScrolledAway = false;
-              if (!entranceComplete) return;
-              entranceComplete = false;
-              build(true);
-            },
-          });
-        }
+        onWindowScroll();
       };
 
       build(true);
@@ -173,9 +161,8 @@ export default function IntroBio({ ready }: { ready: boolean }) {
         observer.disconnect();
         cancelAnimationFrame(resizeFrame);
         entrance?.kill();
-        fadeTrigger?.kill();
         fadeTween?.kill();
-        topReplay?.kill();
+        if (scrollListenerAttached) window.removeEventListener('scroll', onWindowScroll);
         restoreParagraph(paragraph, original);
       };
     });

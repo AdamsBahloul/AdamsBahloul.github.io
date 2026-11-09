@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../animations/gsapConfig';
 import AboutIntro from '../../components/sections/AboutIntro/AboutIntro';
 import ProjectShowcase from '../../components/sections/ProjectShowcase/ProjectShowcase';
+import SkillsShowcase from '../../components/sections/SkillsShowcase/SkillsShowcase';
 import './Home.scss';
 
 const images = [
@@ -82,6 +83,7 @@ export default function Home() {
       let entrance: gsap.core.Timeline | undefined;
       let stackExit: gsap.core.Timeline | undefined;
       let stackReturn: gsap.core.Tween | undefined;
+      let locationFade: gsap.core.Tween | undefined;
       let headerMotionStarted = false;
       let cardsStarted = false;
       const startHeaderMotion = () => {
@@ -112,13 +114,14 @@ export default function Home() {
         startCards();
       }
 
-      const headerHeight = Math.round(document.querySelector('header')?.getBoundingClientRect().height ?? 112);
       const scrollExit = ScrollTrigger.create({
         trigger: section,
-        start: () => `top top+=${headerHeight}`,
+        start: 'top top',
         end: '+=320',
         invalidateOnRefresh: true,
         onEnter: () => {
+          locationFade?.kill();
+          if (location) locationFade = gsap.to(location, { autoAlpha: 0, y: 8, duration: 0.4, ease: 'power2.out' });
           stackReturn?.kill();
           stackExit?.kill();
           stackExit = gsap.timeline();
@@ -132,6 +135,8 @@ export default function Home() {
           });
         },
         onLeaveBack: () => {
+          locationFade?.kill();
+          if (location) locationFade = gsap.to(location, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' });
           stackExit?.kill();
           gsap.set(cards, { css: { '--entrance-y': '0px', '--scroll-y': '100vh' }, autoAlpha: 0 });
           stackReturn = gsap.to(cards, {
@@ -170,22 +175,28 @@ export default function Home() {
         }
       };
 
-      stack.addEventListener('pointerenter', onPointerEnter);
-      stack.addEventListener('pointerleave', onPointerLeave);
+      const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsHover) {
+        stack.addEventListener('pointerenter', onPointerEnter);
+        stack.addEventListener('pointerleave', onPointerLeave);
+      }
       stack.addEventListener('focusin', onPointerEnter);
       stack.addEventListener('focusout', onFocusOut);
 
       return () => {
         window.removeEventListener('portfolio:header-entrance-start', onHeaderEntranceStart);
         window.removeEventListener('portfolio:header-entrance-complete', onHeaderEntranceComplete);
-        stack.removeEventListener('pointerenter', onPointerEnter);
-        stack.removeEventListener('pointerleave', onPointerLeave);
+        if (supportsHover) {
+          stack.removeEventListener('pointerenter', onPointerEnter);
+          stack.removeEventListener('pointerleave', onPointerLeave);
+        }
         stack.removeEventListener('focusin', onPointerEnter);
         stack.removeEventListener('focusout', onFocusOut);
         entrance?.kill();
         scrollExit.kill();
         stackExit?.kill();
         stackReturn?.kill();
+        locationFade?.kill();
       };
     });
 
@@ -193,7 +204,7 @@ export default function Home() {
   }, { scope: sectionRef, dependencies: [] });
 
   return <>
-    <section ref={sectionRef} className="home-page" aria-label="Portfolio introduction">
+    <section ref={sectionRef} className="home-page" id="home" aria-label="Portfolio introduction">
       <NavLink
         ref={stackRef}
         className="home-page__stack"
@@ -233,5 +244,6 @@ export default function Home() {
     </p>
     <AboutIntro />
     <ProjectShowcase />
+    <SkillsShowcase />
   </>;
 }

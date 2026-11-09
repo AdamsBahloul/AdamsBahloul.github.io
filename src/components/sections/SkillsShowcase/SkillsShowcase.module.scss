@@ -1,0 +1,95 @@
+.section {
+  position: relative;
+  padding: 0 var(--space-gutter) 2rem;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.titleStage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.eyebrow {
+  margin: 0 0 .8rem;
+  color: var(--color-muted);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.title {
+  margin: 0;
+  font-size: clamp(4rem, 15vw, 13rem);
+  font-weight: 650;
+  letter-spacing: -.09em;
+  line-height: .86;
+  will-change: opacity, transform;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(100%, 78rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 auto;
+}
+.skill {
+  display: flex;
+  min-height: clamp(10rem, 17vw, 15rem);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  will-change: transform, opacity;
+}
+.mark {
+  display: grid;
+  width: clamp(3.5rem, 6vw, 5.4rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 1.05rem;
+  background: #f3f2ef;
+  color: #282824;
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -.08em;
+  line-height: 1;
+  box-shadow: 0 8px 26px rgb(17 17 15 / 5%);
+}
+.blue { background: #e8efff; color: #2346a0; }
+.orange { background: #fff0e4; color: #a44310; }
+.figma { background: linear-gradient(135deg, #f4e4ff, #ffe5dc 50%, #dff8ee); color: #5a327a; }
+.purple { background: #eee9ff; color: #5636a6; }
+.violet { background: #ecebff; color: #5144a6; }
+.blender { background: #fff0df; color: #bd5716; }
+.cyan { background: #e4f7fb; color: #087c98; }
+.python { background: #eaf0f7; color: #336b8e; }
+.ink { background: #ececea; color: #171714; }
+.teal { background: #e5f4f1; color: #28736c; }
+.coral { background: #fff0e9; color: #b45337; }
+.name { color: var(--color-muted); font-size: .8rem; font-weight: 500; }
+
+@media (max-width: 54rem) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .skill { min-height: 12rem; }
+}
+
+@media (max-width: 38rem) {
+  .section { padding-inline: 1.25rem; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill { min-height: 9rem; gap: .75rem; }
+  .mark { border-radius: .8rem; }
+  .name { font-size: .74rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title, .skill { will-change: auto; }
+}

@@ -8,7 +8,7 @@
 }
 
 .home-page__section-gap {
-  height: clamp(6rem, 15vh, 12rem);
+  height: clamp(2.5rem, 8vh, 6rem);
   background: #fff;
 }
 
@@ -104,13 +104,13 @@
 
 @media (max-width: 42rem) {
   .home-page { height: calc(100svh - 6.5rem); min-height: min(39rem, calc(100svh - 6.5rem)); }
-  .home-page__stack { top: 60%; width: min(62vw, 24rem); }
+  .home-page__stack { top: 48%; width: min(48vw, 20rem); }
   .home-page__wordmark {
     right: 1.25rem;
-    bottom: 7%;
+    bottom: 11%;
     left: 1.25rem;
     width: calc(100% - 2.5rem);
-    max-height: 20%;
+    max-height: 14%;
   }
   .home-page__location {
     right: 1.25rem;

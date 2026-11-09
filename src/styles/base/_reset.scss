@@ -1,5 +1,5 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { min-width: 320px; scroll-behavior: auto; }
+html { min-width: 320px; scroll-behavior: auto; scroll-padding-top: 7rem; }
 body, h1, h2, h3, p, ul { margin: 0; }
 img, picture, video, canvas, svg { display: block; max-width: 100%; }
 button, input, textarea, select { font: inherit; }

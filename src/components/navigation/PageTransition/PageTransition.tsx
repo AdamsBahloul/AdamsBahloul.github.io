@@ -41,7 +41,40 @@ export default function PageTransition() {
       if (!anchor || anchor.target || anchor.hasAttribute('download')) return;
 
       const destination = new URL(anchor.href, window.location.href);
-      if (destination.origin !== window.location.origin || destination.pathname === currentPath.current) return;
+      if (destination.origin !== window.location.origin) return;
+
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const scrollToDestination = () => {
+        const sectionId = decodeURIComponent(destination.hash.slice(1));
+        const target = sectionId ? document.getElementById(sectionId) : null;
+        const headerOffset = document.querySelector('header')?.getBoundingClientRect().height ?? 0;
+        if (target && lenisRef.current) {
+          lenisRef.current.scrollTo(target, {
+            offset: -headerOffset,
+            immediate: isReducedMotion,
+            duration: isReducedMotion ? undefined : 1.15,
+            easing: (progress) => 1 - (1 - progress) ** 4,
+          });
+        } else if (target) {
+          const top = window.scrollY + target.getBoundingClientRect().top - headerOffset;
+          window.scrollTo({ top, behavior: isReducedMotion ? 'auto' : 'smooth' });
+        } else if (lenisRef.current) {
+          lenisRef.current.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+      };
+
+      if (destination.pathname === currentPath.current) {
+        if (!destination.hash) return;
+        const sectionId = decodeURIComponent(destination.hash.slice(1));
+        if (!sectionId || !document.getElementById(sectionId)) return;
+        event.preventDefault();
+        if (window.location.hash !== destination.hash) window.history.pushState(null, '', destination.hash);
+        scrollToDestination();
+        return;
+      }
 
       event.preventDefault();
       if (transitioning.current) return;
@@ -49,9 +82,9 @@ export default function PageTransition() {
       const destinationHref = `${destination.pathname}${destination.search}${destination.hash}`;
       if (destination.pathname === '/') {
         navigateRef.current(destinationHref);
-        if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
-        else window.scrollTo(0, 0);
-        requestAnimationFrame(() => ScrollTrigger.refresh());
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          scrollToDestination();
+        }));
         return;
       }
 
@@ -62,7 +95,7 @@ export default function PageTransition() {
         return;
       }
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (isReducedMotion) {
         navigateRef.current(destinationHref);
         if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
         else window.scrollTo(0, 0);
