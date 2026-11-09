@@ -1,7 +1,24 @@
+# Operating system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local development overrides
+.env
+.env.*
+!.env.example
+
+# Dependency and build output
 node_modules/
 dist/
+build/
+coverage/
 .vite/
+npm-debug.log*
 *.tsbuildinfo
-.DS_Store
-.env*
-!.env.example
+
+# Editor and tooling metadata
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
