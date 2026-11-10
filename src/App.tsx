@@ -1,11 +1,12 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import Home from './pages/Home/Home';
-import Work from './pages/Work/Work';
-import ProjectDetail from './pages/Work/ProjectDetail';
-import About from './pages/About/About';
-import Contact from './pages/Contact/Contact';
-import Playground from './pages/Playground/Playground';
+
+const Home = lazy(() => import('./pages/Home/Home'));
+const Work = lazy(() => import('./pages/Work/Work'));
+const ProjectDetail = lazy(() => import('./pages/Work/ProjectDetail'));
+const About = lazy(() => import('./pages/About/About'));
+const Playground = lazy(() => import('./pages/Playground/Playground'));
 
 // Routes stay declarative here; the shared shell lives in MainLayout.
 export default function App() {
@@ -14,7 +15,7 @@ export default function App() {
     <Route path="work" element={<Work />} />
     <Route path="work/:slug" element={<ProjectDetail />} />
     <Route path="about" element={<About />} />
-    <Route path="contact" element={<Contact />} />
+    <Route path="contact" element={<Home />} />
     <Route path="playground" element={<Playground />} />
     <Route path="*" element={<Home />} />
   </Route></Routes>;

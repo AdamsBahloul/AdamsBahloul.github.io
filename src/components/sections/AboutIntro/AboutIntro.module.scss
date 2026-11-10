@@ -3,6 +3,9 @@
   min-height: 100svh;
   overflow: hidden;
   background: var(--color-paper);
+  background-image: var(--grain-texture);
+  background-size: 160px 160px;
+  background-blend-mode: soft-light;
   color: var(--color-ink);
 }
 

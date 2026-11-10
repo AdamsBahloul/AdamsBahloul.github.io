@@ -1,6 +1,9 @@
 .footer {
   padding: 10rem 0 calc(var(--controls-height) + 1rem);
   background: var(--color-paper);
+  background-image: var(--grain-texture);
+  background-size: 160px 160px;
+  background-blend-mode: soft-light;
   color: var(--color-ink);
 }
 .inner {

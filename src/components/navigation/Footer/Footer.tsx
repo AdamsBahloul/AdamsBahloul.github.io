@@ -41,7 +41,7 @@ export default function Footer() {
       <Container className={styles.inner}>
         <div className={styles.brandLine} data-footer-reveal>
           <NavLink className={styles.brand} to="/" aria-label="Adam Bahloul — home">
-            <img src="/images/biglogo.png" alt="Adam Bahloul" />
+            <img src="/images/biglogo.png" alt="Adam Bahloul" loading="lazy" decoding="async" />
           </NavLink>
           <p className={styles.copyrightMark}>© {new Date().getFullYear()}</p>
         </div>

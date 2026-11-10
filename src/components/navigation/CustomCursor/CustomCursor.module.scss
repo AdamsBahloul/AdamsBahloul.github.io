@@ -1,0 +1,34 @@
+.cursor {
+  position: fixed;
+  z-index: 1500;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: .62rem;
+  height: .62rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #080808;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 32%), 0 2px 8px rgb(0 0 0 / 18%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) scale(.8);
+  transition: width 420ms cubic-bezier(.22, 1, .36, 1), height 420ms cubic-bezier(.22, 1, .36, 1), opacity 160ms ease, transform 420ms cubic-bezier(.22, 1, .36, 1);
+  will-change: left, top, width, height, transform;
+}
+.visible { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
+.overStack { width: 3.6rem; height: 3.6rem; }
+.arrow { width: 1.15rem; height: 1.15rem; color: white; opacity: 0; transform: translate(-3px, 3px) scale(.72); transition: opacity 180ms ease, transform 300ms cubic-bezier(.22, 1, .36, 1); }
+.overStack .arrow { opacity: 1; transform: translate(0, 0) scale(1); }
+
+:global(html.has-custom-cursor),
+:global(html.has-custom-cursor body),
+:global(html.has-custom-cursor body *) { cursor: none !important; }
+:global(html.has-custom-cursor input),
+:global(html.has-custom-cursor textarea),
+:global(html.has-custom-cursor [contenteditable='true']) { cursor: text !important; }
+
+@media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cursor, .arrow { transition-duration: .01ms; }
+}

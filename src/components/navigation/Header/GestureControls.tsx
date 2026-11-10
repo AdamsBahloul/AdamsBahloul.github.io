@@ -267,7 +267,7 @@ export default function GestureControls({ className }: { className?: string }) {
 
   return <>
     <button className={className ?? styles.gestureToggle} type="button" onClick={toggleCamera}
-      aria-label={status === 'active' ? 'Turn off hand controls' : 'Enable hand controls'} aria-pressed={status === 'active'}>
+      aria-label={status === 'active' ? 'Turn off hand controls' : 'Enable hand controls'} title={status === 'active' ? 'Turn off hand controls' : 'Enable hand controls'} aria-pressed={status === 'active'}>
       <Hand size={19} strokeWidth={1.8} aria-hidden="true" />
     </button>
     {typeof document !== 'undefined' && createPortal(<>

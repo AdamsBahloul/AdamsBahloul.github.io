@@ -46,7 +46,10 @@
   letter-spacing: .035em;
   line-height: 1;
   white-space: nowrap;
+  transition: color 220ms ease;
 }
+.link[aria-current='page'],
+.link:active { color: var(--color-accent); }
 
 /* Each glyph clips its own two-line track. The second matching glyph rolls up
    from below as the first leaves; fixed character windows prevent layout shift. */

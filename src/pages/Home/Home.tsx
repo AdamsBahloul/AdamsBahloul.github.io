@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import { NavLink } from 'react-router-dom';
 import { gsap, ScrollTrigger, useGSAP } from '../../animations/gsapConfig';
 import AboutIntro from '../../components/sections/AboutIntro/AboutIntro';
+import AboutFeature from '../../components/sections/AboutFeature/AboutFeature';
 import ProjectShowcase from '../../components/sections/ProjectShowcase/ProjectShowcase';
 import SkillsShowcase from '../../components/sections/SkillsShowcase/SkillsShowcase';
 import './Home.scss';
@@ -39,30 +40,9 @@ const images = [
   },
 ];
 
-function TunisTime() {
-  const [time, setTime] = useState(() => formatTunisTime());
-
-  useEffect(() => {
-    const interval = window.setInterval(() => setTime(formatTunisTime()), 30_000);
-    return () => window.clearInterval(interval);
-  }, []);
-
-  return <span>{time}</span>;
-}
-
-function formatTunisTime() {
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Africa/Tunis',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  }).format(new Date());
-}
-
 export default function Home() {
   const sectionRef = useRef<HTMLElement>(null);
   const stackRef = useRef<HTMLAnchorElement>(null);
-  const locationRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(() => {
     const section = sectionRef.current;
@@ -73,39 +53,44 @@ export default function Home() {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const wordmark = section.querySelector('[data-home-wordmark]');
       const creditLine = section.querySelector('[data-home-credit-line]');
-      const location = locationRef.current;
       const cards = Array.from(stack.querySelectorAll<HTMLElement>('[data-home-card]'));
-      if (!wordmark || !creditLine || !location || !cards.length) return;
+      if (!wordmark || !creditLine || !cards.length) return;
 
       gsap.set(wordmark, { scale: 1.24, opacity: 0, transformOrigin: 'center center' });
       gsap.set(creditLine, { yPercent: 105, autoAlpha: 0 });
-      gsap.set(location, { scale: 1.28, transformOrigin: 'center center' });
       gsap.set(cards, { css: { '--entrance-y': '100vh', '--scroll-y': '0px' } });
 
-      let entrance: gsap.core.Timeline | undefined;
       let stackExit: gsap.core.Timeline | undefined;
       let stackReturn: gsap.core.Tween | undefined;
-      let locationFade: gsap.core.Tween | undefined;
+      let stackEntrance: gsap.core.Tween | undefined;
+      let revealFallback = 0;
       let headerMotionStarted = false;
+      let headerMotionComplete = false;
+      let cardsRequested = false;
       let cardsStarted = false;
       let creditStarted = false;
-      const startHeaderMotion = () => {
-        if (headerMotionStarted) return;
-        headerMotionStarted = true;
-        entrance = gsap.timeline();
-        entrance.to(wordmark, { scale: 1, opacity: 1, duration: 0.9, ease: 'power3.inOut' }, 0);
-        entrance.to(location, { scale: 1, duration: 0.9, ease: 'power3.inOut' }, 0);
-      };
-      const startCards = () => {
-        if (cardsStarted) return;
+      const revealCards = () => {
+        if (!cardsRequested || !headerMotionComplete || cardsStarted) return;
         cardsStarted = true;
-        entrance ??= gsap.timeline();
-        entrance.to(cards, {
+        stackEntrance = gsap.to(cards, {
           css: { '--entrance-y': '0px' },
           duration: 0.64,
           stagger: 0.055,
           ease: 'power3.inOut',
-        }, '+=0.42');
+        });
+      };
+      const startHeaderMotion = () => {
+        if (headerMotionStarted) return;
+        headerMotionStarted = true;
+        gsap.timeline({ onComplete: () => {
+          headerMotionComplete = true;
+          revealCards();
+        } })
+          .to(wordmark, { scale: 1, opacity: 1, duration: 0.62, ease: 'power3.out' }, 0);
+      };
+      const startCards = () => {
+        cardsRequested = true;
+        revealCards();
       };
 
       const startCredit = () => {
@@ -118,10 +103,16 @@ export default function Home() {
       const onHeaderEntranceComplete = () => { startCards(); startCredit(); };
       window.addEventListener('portfolio:header-entrance-start', onHeaderEntranceStart);
       window.addEventListener('portfolio:header-entrance-complete', onHeaderEntranceComplete);
+      revealFallback = window.setTimeout(() => {
+        startHeaderMotion();
+        startCards();
+        startCredit();
+      }, 1800);
       if (document.documentElement.dataset.headerEntranceComplete === 'true') {
         startHeaderMotion();
         startCards();
         startCredit();
+        window.clearTimeout(revealFallback);
       }
 
       const scrollExit = ScrollTrigger.create({
@@ -130,8 +121,6 @@ export default function Home() {
         end: '+=320',
         invalidateOnRefresh: true,
         onEnter: () => {
-          locationFade?.kill();
-          if (location) locationFade = gsap.to(location, { autoAlpha: 0, y: 8, duration: 0.4, ease: 'power2.out' });
           stackReturn?.kill();
           stackExit?.kill();
           stackExit = gsap.timeline();
@@ -145,8 +134,6 @@ export default function Home() {
           });
         },
         onLeaveBack: () => {
-          locationFade?.kill();
-          if (location) locationFade = gsap.to(location, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' });
           stackExit?.kill();
           gsap.set(cards, { css: { '--entrance-y': '0px', '--scroll-y': '100vh' }, autoAlpha: 0 });
           stackReturn = gsap.to(cards, {
@@ -196,17 +183,17 @@ export default function Home() {
       return () => {
         window.removeEventListener('portfolio:header-entrance-start', onHeaderEntranceStart);
         window.removeEventListener('portfolio:header-entrance-complete', onHeaderEntranceComplete);
+        window.clearTimeout(revealFallback);
         if (supportsHover) {
           stack.removeEventListener('pointerenter', onPointerEnter);
           stack.removeEventListener('pointerleave', onPointerLeave);
         }
         stack.removeEventListener('focusin', onPointerEnter);
         stack.removeEventListener('focusout', onFocusOut);
-        entrance?.kill();
+        stackEntrance?.kill();
         scrollExit.kill();
         stackExit?.kill();
         stackReturn?.kill();
-        locationFade?.kill();
       };
     });
 
@@ -244,18 +231,19 @@ export default function Home() {
         className="home-page__wordmark"
         src="/images/biglogo.png"
         alt="Adam Bahloul"
+        width="4749"
+        height="1080"
+        loading="eager"
+        fetchPriority="high"
         data-home-wordmark
       />
       <p className="home-page__credit"><span className="home-page__credit-clip"><span className="home-page__credit-line" data-home-credit-line>© 2024-26</span></span></p>
 
     </section>
     <div className="home-page__section-gap" aria-hidden="true" />
-    <p ref={locationRef} className="home-page__location" aria-label="Local time in Tunis" data-home-location>
-      <span className="home-page__city">TUNIS, TN</span>
-      <TunisTime />
-    </p>
     <AboutIntro />
     <ProjectShowcase />
+    <AboutFeature id="about-profile" />
     <SkillsShowcase />
   </>;
 }

@@ -2,6 +2,9 @@
   position: relative;
   padding: 0 var(--space-gutter) 2rem;
   background: var(--color-paper);
+  background-image: var(--grain-texture);
+  background-size: 160px 160px;
+  background-blend-mode: soft-light;
   color: var(--color-ink);
 }
 

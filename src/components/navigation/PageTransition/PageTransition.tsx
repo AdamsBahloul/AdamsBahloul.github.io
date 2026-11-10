@@ -39,6 +39,11 @@ export default function PageTransition() {
       if (!(origin instanceof Element)) return;
       const anchor = origin.closest<HTMLAnchorElement>('a[href]');
       if (!anchor || anchor.target || anchor.hasAttribute('download')) return;
+      if (anchor.hasAttribute('data-contact-modal')) {
+        event.preventDefault();
+        window.dispatchEvent(new Event('portfolio:open-contact'));
+        return;
+      }
 
       const destination = new URL(anchor.href, window.location.href);
       if (destination.origin !== window.location.origin) return;

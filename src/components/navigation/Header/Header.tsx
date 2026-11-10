@@ -25,7 +25,7 @@ function RollingLabel({ label }: { label: string }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [entranceComplete, setEntranceComplete] = useState(false);
+  const [bioReady, setBioReady] = useState(false);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
   const lenis = useLenis();
@@ -33,7 +33,7 @@ export default function Header() {
   const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   const completeEntrance = () => {
-    setEntranceComplete(true);
+    setBioReady(true);
     document.documentElement.dataset.headerEntranceComplete = 'true';
     window.dispatchEvent(new Event(HEADER_ENTRANCE_EVENT));
   };
@@ -64,19 +64,32 @@ export default function Header() {
       }));
       if (menu) gsap.set(menu, { x: '1.25rem', y: '-0.75rem', scale: 1, transformOrigin: 'top right' });
 
-      const timeline = gsap.timeline({ onStart: () => window.dispatchEvent(new Event(HEADER_ENTRANCE_START_EVENT)), onComplete: completeEntrance });
-      timeline.set(entrants, { autoAlpha: 1 }, 0);
-      if (logo) timeline.to(logo, { x: 0, y: 0, duration: 0.72, ease: 'power3.out' }, 0);
-      visibleNavItems.forEach((item, index) => timeline.to(item, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: 0.72,
-        ease: 'power3.out',
-      }, 0.04 + index * 0.025));
-      if (menu) timeline.to(menu, { x: 0, y: 0, scale: 1, duration: 0.72, ease: 'power3.out' }, 0.04);
+      let timeline: gsap.core.Timeline | undefined;
+      const startEntrance = () => {
+        if (timeline) return;
+        timeline = gsap.timeline({ onStart: () => {
+          setBioReady(true);
+          window.dispatchEvent(new Event(HEADER_ENTRANCE_START_EVENT));
+        }, onComplete: completeEntrance });
+        timeline.set(entrants, { autoAlpha: 1 }, 0);
+        if (logo) timeline.to(logo, { x: 0, y: 0, duration: 0.72, ease: 'power3.out' }, 0);
+        visibleNavItems.forEach((item, index) => timeline?.to(item, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.72,
+          ease: 'power3.out',
+        }, 0.04 + index * 0.025));
+        if (menu) timeline.to(menu, { x: 0, y: 0, scale: 1, duration: 0.72, ease: 'power3.out' }, 0.04);
+      };
+      const onLoadingComplete = () => startEntrance();
+      window.addEventListener('portfolio:loading-complete', onLoadingComplete, { once: true });
+      if (document.documentElement.dataset.loadingComplete === 'true') startEntrance();
 
-      return () => timeline.kill();
+      return () => {
+        window.removeEventListener('portfolio:loading-complete', onLoadingComplete);
+        timeline?.kill();
+      };
     });
 
     return () => media.revert();
@@ -119,6 +132,7 @@ export default function Header() {
               aria-label={item.label}
               data-header-nav-item
               data-ui-sound
+              data-contact-modal={item.href === '/contact' ? 'true' : undefined}
               onClick={() => setMenuOpen(false)}
             >
               <RollingLabel label={item.label} />
@@ -142,7 +156,7 @@ export default function Header() {
         <NavLink className={styles.brand} to="/" aria-label="Portfolio home" data-header-logo onClick={() => setMenuOpen(false)}>
           <img src="/images/Mainlogo.png" alt="Adam" width="3424" height="839" />
         </NavLink>
-        {isHome && <IntroBio ready={entranceComplete} />}
+        {isHome && <IntroBio ready={bioReady} />}
       </div>
     </Container>
   </header>;

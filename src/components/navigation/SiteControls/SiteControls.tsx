@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowUp, AudioLines, Circle, Moon, Sun } from 'lucide-react';
+import { ArrowUp, AudioLines, Circle, Moon, Palette, Sun } from 'lucide-react';
 import GestureControls from '../Header/GestureControls';
 import { playUiSound, setUiSoundEnabled } from '../../../utils/uiSound';
 import { useLenis } from '../../../hooks/useLenis';
@@ -71,28 +71,30 @@ export default function SiteControls() {
 
   return <aside className={styles.controls} aria-label="Display and interaction controls">
     <div className={styles.themeControl}>
-      <button className={styles.themeToggle} type="button" aria-haspopup="true" aria-expanded={themeMenuOpen}
+      <button className={styles.themeToggle} type="button" aria-label={`Color theme: ${theme}. Choose theme`} title={`Color theme: ${theme}`} aria-haspopup="true" aria-expanded={themeMenuOpen}
         onClick={() => setThemeMenuOpen((open) => !open)}>
+        <Palette size={22} strokeWidth={1.8} aria-hidden="true" />
         <span className={`${styles.themeDot} ${styles[`themeDot_${theme}`]}`} aria-hidden="true" />
         <span>{themeNames[theme]}</span>
       </button>
-      {themeMenuOpen && <div className={styles.themeMenu} role="group" aria-label="Choose color scheme">
-        <button type="button" className={styles.themeOption} aria-pressed={theme === 'light'} onClick={() => { setTheme('light'); setThemeMenuOpen(false); }}>
+      <div className={`${styles.themeMenu} ${themeMenuOpen ? styles.themeMenuOpen : ''}`} role="group" aria-label="Choose color scheme" aria-hidden={!themeMenuOpen} inert={!themeMenuOpen}>
+        <button type="button" tabIndex={themeMenuOpen ? 0 : -1} className={styles.themeOption} aria-pressed={theme === 'light'} onClick={() => { setTheme('light'); setThemeMenuOpen(false); }}>
           <Sun size={17} aria-hidden="true" /><span>Light</span>{theme === 'light' && <Circle size={7} fill="currentColor" aria-hidden="true" />}
         </button>
-        <button type="button" className={styles.themeOption} aria-pressed={theme === 'dark'} onClick={() => { setTheme('dark'); setThemeMenuOpen(false); }}>
+        <button type="button" tabIndex={themeMenuOpen ? 0 : -1} className={styles.themeOption} aria-pressed={theme === 'dark'} onClick={() => { setTheme('dark'); setThemeMenuOpen(false); }}>
           <Moon size={17} aria-hidden="true" /><span>Dark</span>{theme === 'dark' && <Circle size={7} fill="currentColor" aria-hidden="true" />}
         </button>
-        <button type="button" className={styles.themeOption} aria-pressed={theme === 'red'} onClick={() => { setTheme('red'); setThemeMenuOpen(false); }}>
+        <button type="button" tabIndex={themeMenuOpen ? 0 : -1} className={styles.themeOption} aria-pressed={theme === 'red'} onClick={() => { setTheme('red'); setThemeMenuOpen(false); }}>
           <span className={styles.redSwatch} aria-hidden="true" /><span>Reddish</span>{theme === 'red' && <Circle size={7} fill="currentColor" aria-hidden="true" />}
         </button>
-      </div>}
+      </div>
     </div>
 
     <div className={styles.middleControls}>
       <GestureControls className={styles.gestureButton} />
       <button className={`${styles.soundButton} ${soundOn ? styles.soundOn : ''}`} type="button"
         aria-label={soundOn ? 'Turn interaction sounds off' : 'Turn interaction sounds on'} aria-pressed={soundOn}
+        title={soundOn ? 'Turn interaction sounds off' : 'Turn interaction sounds on'}
         onClick={() => setSoundOn((enabled) => !enabled)}>
         <AudioLines size={25} strokeWidth={1.8} aria-hidden="true" />
       </button>
@@ -100,6 +102,7 @@ export default function SiteControls() {
 
     <button className={styles.backTop} type="button" aria-label="Back to top" title="Back to top" onClick={backToTop}>
       <ArrowUp size={22} strokeWidth={1.8} aria-hidden="true" />
+      <span>Back to top</span>
     </button>
   </aside>;
 }
