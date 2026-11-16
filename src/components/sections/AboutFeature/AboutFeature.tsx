@@ -14,10 +14,8 @@ export default function AboutFeature({ id = 'about-page' }: { id?: string }) {
           />
         </figure>
         <div className={styles.copy}>
-          <p className={styles.kicker}>ABOUT / ADAM BAHLOUL</p>
-          <h2>Hardware minded.<br />Design led.</h2>
           <p>I’m an embedded systems and software engineering student who enjoys bringing software and hardware together. I’m especially interested in AI, robotics, and turning complex ideas into clear, useful experiences.</p>
-          <p>I like taking an idea from its first sketch to a working prototype, with attention to the details that make technology feel intuitive.</p>
+          <p>I like taking an idea from its first sketch to a working prototype, connecting software, electronics, and design with attention to the details that make technology feel intuitive.</p>
         </div>
       </div>
     </section>

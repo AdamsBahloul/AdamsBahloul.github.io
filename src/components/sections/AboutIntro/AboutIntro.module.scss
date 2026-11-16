@@ -36,13 +36,15 @@
 }
 
 .supportingCopy {
-  width: min(36rem, 72vw);
+  width: min(86vw, 92rem);
   margin: clamp(2rem, 5vh, 4rem) auto 0;
-  color: var(--color-muted);
+  color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.25vw, 1.35rem);
-  font-weight: 400;
-  line-height: 1.6;
+  font-size: clamp(2rem, 3.5vw, 4.4rem);
+  font-weight: 600;
+  letter-spacing: -.07em;
+  line-height: 1.03;
+  text-align: center;
 }
 
 @media (max-width: 62rem) {
@@ -67,10 +69,10 @@
     line-height: 1.02;
   }
   .supportingCopy {
-    width: min(100%, 32rem);
+    width: min(100%, 34rem);
     margin: 0 auto;
-    font-size: .94rem;
-    line-height: 1.55;
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+    line-height: 1.04;
   }
 }
 

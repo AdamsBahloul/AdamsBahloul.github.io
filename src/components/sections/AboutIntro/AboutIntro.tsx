@@ -100,10 +100,7 @@ export default function AboutIntro() {
           ))}
         </p>
         <p className={styles.supportingCopy}>
-          From early sketches to working prototypes, I like connecting software, electronics and design. I’m drawn to the moments when a complex idea becomes clear, useful and enjoyable to interact with.
-        </p>
-        <p className={styles.supportingCopy}>
-          I’m currently looking for an internship where I can contribute to a thoughtful team while growing my skills in embedded systems, AI and computer vision.
+          From the first sketch to a working prototype, I connect software, electronics, and design to make complex ideas clear and useful. I’m looking for an internship where I can contribute to a thoughtful team while growing across embedded systems, AI, and computer vision.
         </p>
       </div>
     </section>
