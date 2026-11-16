@@ -201,10 +201,12 @@ export default function GestureControls({ className }: { className?: string }) {
         }
       })();
       const [cameraResult, recognizerResult] = await Promise.allSettled([cameraPromise, recognizerPromise]);
-      if (cameraResult.status === 'rejected' || recognizerResult.status === 'rejected') {
-        if (cameraResult.status === 'fulfilled') cameraResult.value.getTracks().forEach((track) => track.stop());
+      if (cameraResult.status === 'rejected') {
         if (recognizerResult.status === 'fulfilled') recognizerResult.value.close();
-        if (cameraResult.status === 'rejected') throw cameraResult.reason;
+        throw cameraResult.reason;
+      }
+      if (recognizerResult.status === 'rejected') {
+        cameraResult.value.getTracks().forEach((track) => track.stop());
         throw recognizerResult.reason;
       }
       const stream = cameraResult.value;
