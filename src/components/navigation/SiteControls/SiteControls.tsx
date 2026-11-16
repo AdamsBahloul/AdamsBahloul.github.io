@@ -9,11 +9,10 @@ type Theme = 'light' | 'dark' | 'red';
 const themeNames: Record<Theme, string> = { light: 'Light', dark: 'Dark', red: 'Reddish' };
 
 function readTheme(): Theme {
-  try {
-    const saved = localStorage.getItem('portfolio-theme');
-    if (saved === 'dark' || saved === 'red' || saved === 'light') return saved;
-  } catch { /* Keep the default when storage is unavailable. */ }
-  return 'light';
+  const current = document.documentElement.dataset.theme;
+  if (current === 'dark' || current === 'red' || current === 'light') return current;
+  const themes: Theme[] = ['light', 'dark', 'red'];
+  return themes[Math.floor(Math.random() * themes.length)];
 }
 
 function readSoundSetting() {

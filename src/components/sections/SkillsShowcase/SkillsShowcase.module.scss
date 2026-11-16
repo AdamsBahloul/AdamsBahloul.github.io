@@ -67,6 +67,7 @@
   line-height: 1;
   box-shadow: 0 8px 26px rgb(17 17 15 / 5%);
 }
+.mark img { display: block; width: 58%; height: 58%; object-fit: contain; }
 .blue { background: #e8efff; color: #2346a0; }
 .orange { background: #fff0e4; color: #a44310; }
 .figma { background: linear-gradient(135deg, #f4e4ff, #ffe5dc 50%, #dff8ee); color: #5a327a; }

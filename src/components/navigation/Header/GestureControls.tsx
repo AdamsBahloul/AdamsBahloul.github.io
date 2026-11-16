@@ -171,52 +171,62 @@ export default function GestureControls({ className }: { className?: string }) {
   const startCamera = useCallback(async () => {
     const session = ++sessionRef.current;
     setStatus('loading');
-    setMessage('Waiting for camera access…');
+    setMessage('Preparing camera and hand tracking…');
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error('Camera access requires a secure browser connection.');
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const cameraPromise = navigator.mediaDevices.getUserMedia({
         audio: false,
         video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
       });
+      const recognizerPromise = (async () => {
+        const { FilesetResolver, GestureRecognizer: GestureRecognizerTask } = await import('@mediapipe/tasks-vision');
+        const vision = await FilesetResolver.forVisionTasks(wasmUrl);
+        const options = {
+          runningMode: 'VIDEO' as const,
+          numHands: 1,
+          minHandDetectionConfidence: 0.55,
+          minHandPresenceConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        };
+        try {
+          return await GestureRecognizerTask.createFromOptions(vision, {
+            ...options,
+            baseOptions: { modelAssetPath: modelUrl, delegate: 'GPU' },
+          });
+        } catch {
+          return GestureRecognizerTask.createFromOptions(vision, {
+            ...options,
+            baseOptions: { modelAssetPath: modelUrl, delegate: 'CPU' },
+          });
+        }
+      })();
+      const [cameraResult, recognizerResult] = await Promise.allSettled([cameraPromise, recognizerPromise]);
+      if (cameraResult.status === 'rejected' || recognizerResult.status === 'rejected') {
+        if (cameraResult.status === 'fulfilled') cameraResult.value.getTracks().forEach((track) => track.stop());
+        if (recognizerResult.status === 'fulfilled') recognizerResult.value.close();
+        if (cameraResult.status === 'rejected') throw cameraResult.reason;
+        throw recognizerResult.reason;
+      }
+      const stream = cameraResult.value;
+      const recognizer = recognizerResult.value;
       if (sessionRef.current !== session) {
+        recognizer.close();
         stream.getTracks().forEach((track) => track.stop());
         return;
       }
       streamRef.current = stream;
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       const video = videoRef.current;
-      if (!video) throw new Error('Camera preview could not be initialized.');
-      video.srcObject = stream;
-      await video.play();
-
-      setMessage('Loading gesture controls…');
-      const { FilesetResolver, GestureRecognizer: GestureRecognizerTask } = await import('@mediapipe/tasks-vision');
-      const vision = await FilesetResolver.forVisionTasks(wasmUrl);
-      const baseOptions = {
-        runningMode: 'VIDEO' as const,
-        numHands: 1,
-        minHandDetectionConfidence: 0.55,
-        minHandPresenceConfidence: 0.5,
-        minTrackingConfidence: 0.5,
-      };
-      let recognizer: GestureRecognizer;
-      try {
-        recognizer = await GestureRecognizerTask.createFromOptions(vision, {
-          ...baseOptions,
-          baseOptions: { modelAssetPath: modelUrl, delegate: 'GPU' },
-        });
-      } catch {
-        recognizer = await GestureRecognizerTask.createFromOptions(vision, {
-          ...baseOptions,
-          baseOptions: { modelAssetPath: modelUrl, delegate: 'CPU' },
-        });
-      }
-      if (sessionRef.current !== session) {
+      if (!video) {
         recognizer.close();
         stream.getTracks().forEach((track) => track.stop());
-        return;
+        streamRef.current = null;
+        throw new Error('Camera preview could not be initialized.');
       }
       recognizerRef.current = recognizer;
+      video.srcObject = stream;
+      await video.play();
+      if (sessionRef.current !== session) return;
       activeRef.current = true;
       setStatus('active');
       setMessage('Show one hand in the camera preview.');

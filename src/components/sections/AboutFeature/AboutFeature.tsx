@@ -7,15 +7,17 @@ export default function AboutFeature({ id = 'about-page' }: { id?: string }) {
       <div className={styles.layout}>
         <figure className={styles.portrait}>
           <img
-            src="/images/wide2.avif"
+            src="/images/headshot.webp"
             alt="Editorial portrait of a man in profile against a soft floral background"
             loading="lazy"
             decoding="async"
           />
         </figure>
         <div className={styles.copy}>
+          <p className={styles.kicker}>ABOUT / ADAM BAHLOUL</p>
+          <h2>Hardware minded.<br />Design led.</h2>
           <p>I’m an embedded systems and software engineering student who enjoys bringing software and hardware together. I’m especially interested in AI, robotics, and turning complex ideas into clear, useful experiences.</p>
-          <p>I like experimenting with AI, robotics, and intuitive interfaces, while paying attention to the small details that make technology feel simple and useful. I enjoy taking an idea from first sketch to working prototype.</p>
+          <p>I like taking an idea from its first sketch to a working prototype, with attention to the details that make technology feel intuitive.</p>
         </div>
       </div>
     </section>

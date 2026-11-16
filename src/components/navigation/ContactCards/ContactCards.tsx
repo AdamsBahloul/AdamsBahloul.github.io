@@ -12,6 +12,7 @@ export default function ContactCards({ onClose }: { onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const closingRef = useRef(false);
   const entranceRef = useRef<gsap.core.Tween | undefined>(undefined);
+  const closeAnimationRef = useRef<gsap.core.Timeline | undefined>(undefined);
   const lenis = useLenis();
 
   const closeCards = useCallback(() => {
@@ -28,13 +29,18 @@ export default function ContactCards({ onClose }: { onClose: () => void }) {
       onClose();
       return;
     }
-    gsap.timeline({ onComplete: onClose })
+    closeAnimationRef.current = gsap.timeline({
+      onComplete: () => {
+        closeAnimationRef.current = undefined;
+        onClose();
+      },
+    })
       .to(cards, {
         y: () => -window.innerHeight,
         autoAlpha: 0,
-        duration: 0.64,
-        stagger: 0.055,
-        ease: 'power3.inOut',
+        duration: 0.7,
+        stagger: 0,
+        ease: 'power3.in',
       }, 0)
       .to(overlay, { autoAlpha: 0, duration: 0.5, ease: 'power2.inOut' }, 0);
   }, [onClose]);
@@ -43,13 +49,16 @@ export default function ContactCards({ onClose }: { onClose: () => void }) {
     const overlay = overlayRef.current;
     if (!overlay || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const cards = Array.from(overlay.querySelectorAll<HTMLElement>('[data-contact-motion]'));
-    gsap.set(cards, { y: window.innerHeight });
-    entranceRef.current = gsap.to(cards, {
-      y: 0,
-      duration: 0.64,
-      stagger: 0.055,
-      ease: 'power3.inOut',
-    });
+    entranceRef.current = gsap.fromTo(cards,
+      { y: () => window.innerHeight, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.85,
+        stagger: 0,
+        ease: 'power3.out',
+      },
+    );
     return () => entranceRef.current?.kill();
   }, { scope: overlayRef, dependencies: [] });
 
@@ -83,6 +92,8 @@ export default function ContactCards({ onClose }: { onClose: () => void }) {
     return () => {
       document.body.style.overflow = previousOverflow;
       lenis?.start();
+      closeAnimationRef.current?.kill();
+      closeAnimationRef.current = undefined;
       document.removeEventListener('keydown', onKeyDown);
       previousFocus?.focus();
     };

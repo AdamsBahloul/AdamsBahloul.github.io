@@ -69,6 +69,7 @@ export default function Footer() {
 
           <div className={styles.connect} data-footer-reveal>
             <h2>Connect</h2>
+            <a href="https://github.com/AdamsBahloul" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
             <a href="https://www.linkedin.com/in/bahloul-adam/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
             <a href={`mailto:${contactEmail}`}>Email <span aria-hidden="true">↗</span></a>
             <a href="/images/adelabbes.pdf" download="Adam-Bahloul-CV.pdf">Download CV <span aria-hidden="true">↓</span></a>

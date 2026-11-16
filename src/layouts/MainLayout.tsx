@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/navigation/Header/Header';
 import Footer from '../components/navigation/Footer/Footer';
@@ -7,12 +7,18 @@ import SiteControls from '../components/navigation/SiteControls/SiteControls';
 import LoadingScreen from '../components/navigation/LoadingScreen/LoadingScreen';
 import CustomCursor from '../components/navigation/CustomCursor/CustomCursor';
 import ContactCards from '../components/navigation/ContactCards/ContactCards';
+import { useLenis } from '../hooks/useLenis';
 
 /** Shared site chrome; route content is rendered through the outlet. */
 export default function MainLayout() {
   const { pathname } = useLocation();
+  const lenis = useLenis();
   const workIndex = pathname === '/work';
   const [contactOpen, setContactOpen] = useState(() => pathname === '/contact');
+  useLayoutEffect(() => {
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  }, [pathname, lenis]);
   useEffect(() => {
     const open = () => setContactOpen(true);
     window.addEventListener('portfolio:open-contact', open);

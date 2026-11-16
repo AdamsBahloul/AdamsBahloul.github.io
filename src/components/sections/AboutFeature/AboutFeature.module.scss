@@ -45,25 +45,47 @@
 }
 .copy {
   display: grid;
-  gap: clamp(2.7rem, 7vh, 5.5rem);
+  gap: clamp(1rem, 2.2vw, 1.8rem);
   padding-top: .1em;
 }
-.copy p {
+.kicker {
   margin: 0;
-  font-size: clamp(1.9rem, 2.55vw, 3.3rem);
-  font-weight: 450;
-  letter-spacing: -.065em;
-  line-height: 1.16;
+  color: var(--color-muted);
+  font-size: .7rem;
+  font-weight: 650;
+  letter-spacing: .1em;
+}
+.copy h2 {
+  margin: 0;
+  font-size: clamp(3.2rem, 6vw, 7rem);
+  font-weight: 520;
+  letter-spacing: -.085em;
+  line-height: .9;
+}
+.copy > p:not(.kicker) {
+  max-width: 37rem;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  line-height: 1.6;
   text-wrap: pretty;
+}
+.copy > p:nth-of-type(2) {
+  color: var(--color-ink);
+  font-size: clamp(1.45rem, 2.1vw, 2.35rem);
+  font-weight: 450;
+  letter-spacing: -.055em;
+  line-height: 1.15;
 }
 @media (max-width: 62rem) {
   .layout { grid-template-columns: minmax(0, .72fr) minmax(0, 1.45fr); gap: clamp(2.5rem, 6vw, 5rem); }
-  .copy p { font-size: clamp(1.7rem, 3vw, 2.55rem); }
+  .copy h2 { font-size: clamp(3.2rem, 7vw, 5.5rem); }
 }
 @media (max-width: 46rem) {
   .section { min-height: calc(100svh - 6.5rem); padding-block: 2.5rem 4rem; }
   .layout { grid-template-columns: 1fr; gap: 2.3rem; }
   .portrait { width: min(58vw, 17rem); aspect-ratio: .82; }
-  .copy { gap: 2rem; }
-  .copy p { font-size: clamp(1.65rem, 7.3vw, 2.2rem); line-height: 1.16; }
+  .copy { gap: 1.1rem; }
+  .copy h2 { font-size: clamp(3rem, 13vw, 5rem); }
+  .copy > p:nth-of-type(2) { font-size: clamp(1.4rem, 6.2vw, 2rem); }
 }

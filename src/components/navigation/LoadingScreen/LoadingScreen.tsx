@@ -3,13 +3,24 @@ import styles from './LoadingScreen.module.scss';
 
 const MINIMUM_DISPLAY_MS = 650;
 const FINAL_ROLL_MS = 560;
+const CONTENT_WAIT_MS = 1800;
+const ASSET_WAIT_MS = 2200;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, fallback: T): Promise<T> {
+  return Promise.race([promise, new Promise<T>((resolve) => window.setTimeout(() => resolve(fallback), timeoutMs))]);
+}
 
 function waitForPageContent() {
   const main = document.getElementById('main-content');
   if (!main || main.childElementCount > 0) return Promise.resolve();
   return new Promise<void>((resolve) => {
+    const timeout = window.setTimeout(() => {
+      observer.disconnect();
+      resolve();
+    }, CONTENT_WAIT_MS);
     const observer = new MutationObserver(() => {
       if (main.childElementCount > 0) {
+        window.clearTimeout(timeout);
         observer.disconnect();
         resolve();
       }
@@ -20,16 +31,17 @@ function waitForPageContent() {
 
 function waitForWindowLoad() {
   if (document.readyState === 'complete') return Promise.resolve();
-  return new Promise<void>((resolve) => window.addEventListener('load', () => resolve(), { once: true }));
+  return withTimeout(new Promise<void>((resolve) => window.addEventListener('load', () => resolve(), { once: true })), ASSET_WAIT_MS, undefined);
 }
 
 function waitForImage(image: HTMLImageElement) {
-  if (image.complete) return image.decode?.().catch(() => undefined) ?? Promise.resolve();
-  return new Promise<void>((resolve) => {
-    const done = () => { void (image.decode?.().catch(() => undefined) ?? Promise.resolve()).then(() => resolve()); };
+  const decoded = () => withTimeout(image.decode?.().catch(() => undefined) ?? Promise.resolve(), 900, undefined);
+  if (image.complete) return decoded();
+  return withTimeout(new Promise<void>((resolve) => {
+    const done = () => { void decoded().then(() => resolve()); };
     image.addEventListener('load', done, { once: true });
     image.addEventListener('error', () => resolve(), { once: true });
-  });
+  }), ASSET_WAIT_MS, undefined);
 }
 
 export default function LoadingScreen() {
@@ -82,7 +94,7 @@ export default function LoadingScreen() {
         return rect.bottom > -window.innerHeight && rect.top < window.innerHeight * 1.35;
       });
       const tasks = [
-        Promise.resolve(document.fonts?.ready),
+        withTimeout(Promise.resolve(document.fonts?.ready), ASSET_WAIT_MS, undefined),
         waitForWindowLoad(),
         ...images.map(waitForImage),
       ];

@@ -133,6 +133,7 @@
 
 @media (max-width: 42rem) {
   .header { height: 5.75rem; background: var(--color-paper); }
+  .brand img { filter: var(--brand-filter, none); }
   :global(html) { scroll-padding-top: 6.5rem; }
   :global(body) { padding-top: 6.5rem; }
   .inner { padding: 3rem 1.25rem 0; }

@@ -8,6 +8,9 @@ import '@fontsource-variable/geist';
 import './styles/main.scss';
 
 initGsap();
+if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+const themes = ['light', 'dark', 'red'] as const;
+document.documentElement.dataset.theme = themes[Math.floor(Math.random() * themes.length)];
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

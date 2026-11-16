@@ -3,17 +3,17 @@ import { gsap, useGSAP } from '../../../animations/gsapConfig';
 import styles from './SkillsShowcase.module.scss';
 
 const skills = [
-  { mark: 'Ps', name: 'Photoshop', tone: 'blue' },
-  { mark: 'Ai', name: 'Illustrator', tone: 'orange' },
-  { mark: 'F', name: 'Figma', tone: 'figma' },
-  { mark: 'Ae', name: 'After Effects', tone: 'purple' },
-  { mark: 'Pr', name: 'Premiere Pro', tone: 'violet' },
-  { mark: 'Bl', name: 'Blender', tone: 'blender' },
-  { mark: 'R', name: 'React', tone: 'cyan' },
-  { mark: 'TS', name: 'TypeScript', tone: 'blue' },
-  { mark: 'Py', name: 'Python', tone: 'python' },
-  { mark: 'GH', name: 'GitHub', tone: 'ink' },
-  { mark: 'Ar', name: 'Arduino', tone: 'teal' },
+  { icon: 'c', name: 'Embedded C', tone: 'blue' },
+  { icon: 'cplusplus', name: 'C++', tone: 'blue' },
+  { icon: 'arduino', name: 'Arduino', tone: 'teal' },
+  { icon: 'stmicroelectronics', name: 'STM32', tone: 'cyan' },
+  { icon: 'espressif', name: 'ESP32', tone: 'orange' },
+  { icon: 'adobephotoshop', name: 'Photoshop', tone: 'blue' },
+  { icon: 'adobeillustrator', name: 'Illustrator', tone: 'orange' },
+  { icon: 'figma', name: 'Figma', tone: 'figma' },
+  { icon: 'adobeaftereffects', name: 'After Effects', tone: 'purple' },
+  { icon: 'adobepremierepro', name: 'Premiere Pro', tone: 'violet' },
+  { icon: 'blender', name: 'Blender', tone: 'blender' },
   { mark: '3D', name: '3D & Motion', tone: 'coral' },
 ];
 
@@ -87,13 +87,14 @@ export default function SkillsShowcase() {
   return (
     <section ref={sectionRef} className={styles.section} id="skills" aria-labelledby="skills-title">
       <div className={styles.titleStage} data-skills-intro>
-
         <h2 className={styles.title} id="skills-title" data-skills-title>Skills</h2>
       </div>
       <div className={styles.grid} data-skills-grid>
         {skills.map((skill, index) => (
           <div className={styles.skill} key={skill.name} data-skill-logo style={{ '--skill-index': index } as React.CSSProperties}>
-            <span className={`${styles.mark} ${styles[skill.tone]}`} aria-hidden="true">{skill.mark}</span>
+            <span className={`${styles.mark} ${styles[skill.tone]}`} aria-hidden="true">
+              {'icon' in skill ? <img src={`https://cdn.simpleicons.org/${skill.icon}`} alt="" loading="lazy" decoding="async" /> : skill.mark}
+            </span>
             <span className={styles.name}>{skill.name}</span>
           </div>
         ))}
