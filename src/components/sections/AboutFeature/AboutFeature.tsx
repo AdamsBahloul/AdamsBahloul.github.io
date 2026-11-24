@@ -14,8 +14,8 @@ export default function AboutFeature({ id = 'about-page' }: { id?: string }) {
           />
         </figure>
         <div className={styles.copy}>
-          <p>I’m a third-year Embedded Systems Engineering student at the Higher Institute of Computer Science (ISI), Tunisia, pursuing a Licence in Embedded Systems / Connected and Intelligent Systems, with expected graduation in June 2027. I’m interested in low-level programming, connected devices, embedded AI, and robotics.</p>
-          <p>My experience spans industrial test automation, collaborative computational neuroscience research, and digital communications. I also bring a visual design background to technical work, and I’m seeking a local or international internship in embedded systems, embedded software, Embedded Linux, IoT, or robotics.</p>
+          <p>I’m a third-year Embedded Systems Engineering student at the Higher Institute of Computer Science Tunisia. I’m interested in low-level programming, connected devices, embedded AI, and robotics.</p>
+          <p>My experience spans industrial test automation, collaborative computational neuroscience research, and digital communications. I also bring a visual design background to technical work, and I’m seeking a local or international internship in Embedded systems Or Embedded software</p>
         </div>
       </div>
     </section>

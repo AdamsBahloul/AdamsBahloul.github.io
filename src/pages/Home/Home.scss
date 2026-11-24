@@ -76,7 +76,7 @@
   display: block;
   width: auto;
   height: auto;
-  max-height: 40%;
+  max-height: 38%;
   object-fit: contain;
   object-position: left bottom;
   pointer-events: none;
@@ -86,12 +86,12 @@
 
 .home-page__credit {
   position: absolute;
-  right: 2.6vw;
-  bottom: 35%;
+  right: 2.9vw;
+  bottom: 40%;
   z-index: 2;
   margin: 0;
   color: var(--color-ink);
-  font-size: clamp(1.35rem, 2.9vw, 8rem);
+  font-size: clamp(1.35rem, 4.2vw, 8rem);
   font-weight: 650;
   letter-spacing: -.05em;
   line-height: 1;

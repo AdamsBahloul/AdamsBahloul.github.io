@@ -9,8 +9,8 @@ import './Home.scss';
 
 const images = [
   {
-    src: './images/project2.webp',
-    alt: 'Geometric facade in black and white',
+    src: './images/projectPic5.webp',
+    alt: 'Retro-futurist poster with a central portrait and teal and red geometric shapes',
     x: -22, y: -5, rotation: -12,
     spreadX: -105, spreadY: -38, spreadRotation: -17,
   },
@@ -21,20 +21,20 @@ const images = [
     spreadX: -15, spreadY: -45, spreadRotation: -5,
   },
   {
-    src: './images/project10.avif',
-    alt: 'Symmetrical abstract architecture',
+    src: './images/projectPic3.webp',
+    alt: 'Illustrated robotic form with mechanical components and a technical layout',
     x: 22, y: 14, rotation: 10,
     spreadX: 15, spreadY: 38, spreadRotation: 7,
   },
   {
-    src: './images/project9.avif',
-    alt: 'Art deco building in New York',
+    src: './images/projectPic2.webp',
+    alt: 'Black-and-white robotics poster featuring technical diagrams and typography',
     x: 22, y: -14, rotation: -6,
     spreadX: 50, spreadY: -35, spreadRotation: 13,
   },
   {
-    src: './images/project8.avif',
-    alt: 'Studio portrait against a vivid orange background',
+    src: './images/projectPic1.jpeg',
+    alt: 'Colorful circuit board illustration with a winding path and circuit components',
     x: 12, y: 4, rotation: 2,
     spreadX: 5, spreadY: 30, spreadRotation: 6,
   },
