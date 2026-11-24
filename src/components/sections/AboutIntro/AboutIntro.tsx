@@ -2,7 +2,7 @@ import { Fragment, useRef } from 'react';
 import { gsap, useGSAP } from '../../../animations/gsapConfig';
 import styles from './AboutIntro.module.scss';
 
-const statement = 'I build thoughtful systems across embedded software, electronics and AI, turning complex ideas into useful tools and intuitive digital experiences.';
+const statement = 'I’m Adam — a third-year embedded systems engineering student exploring the intersection of intelligent hardware, software and robotics. I build connected systems, experiment with embedded AI and turn engineering ideas into functional experiences.';
 const words = statement.split(' ');
 
 export default function AboutIntro() {
@@ -100,7 +100,7 @@ export default function AboutIntro() {
           ))}
         </p>
         <p className={styles.supportingCopy}>
-          From the first sketch to a working prototype, I connect software, electronics, and design to make complex ideas clear and useful. I’m looking for an internship where I can contribute to a thoughtful team while growing across embedded systems, AI, and computer vision.
+          My projects include NeuroBot, a Raspberry Pi 3 Model B+ motor-imagery BCI prototype, and HomeMesh Gateway, an Embedded Linux IoT system. I’ve also contributed to industrial test automation and neuroscience research. I’m seeking a local or international internship in embedded systems, embedded software, Embedded Linux, IoT or robotics.
         </p>
       </div>
     </section>

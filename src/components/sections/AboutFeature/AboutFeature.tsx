@@ -8,14 +8,14 @@ export default function AboutFeature({ id = 'about-page' }: { id?: string }) {
         <figure className={styles.portrait}>
           <img
             src="/images/headshot.webp"
-            alt="Editorial portrait of a man in profile against a soft floral background"
+            alt="Portrait of Adam Bahloul, Embedded Systems Engineering student"
             loading="lazy"
             decoding="async"
           />
         </figure>
         <div className={styles.copy}>
-          <p>I’m an embedded systems and software engineering student who enjoys bringing software and hardware together. I’m especially interested in AI, robotics, and turning complex ideas into clear, useful experiences.</p>
-          <p>I like taking an idea from its first sketch to a working prototype, connecting software, electronics, and design with attention to the details that make technology feel intuitive.</p>
+          <p>I’m a third-year Embedded Systems Engineering student at the Higher Institute of Computer Science (ISI), Tunisia, pursuing a Licence in Embedded Systems / Connected and Intelligent Systems, with expected graduation in June 2027. I’m interested in low-level programming, connected devices, embedded AI, and robotics.</p>
+          <p>My experience spans industrial test automation, collaborative computational neuroscience research, and digital communications. I also bring a visual design background to technical work, and I’m seeking a local or international internship in embedded systems, embedded software, Embedded Linux, IoT, or robotics.</p>
         </div>
       </div>
     </section>

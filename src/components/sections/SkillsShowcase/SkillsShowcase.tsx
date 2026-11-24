@@ -3,18 +3,18 @@ import { gsap, useGSAP } from '../../../animations/gsapConfig';
 import styles from './SkillsShowcase.module.scss';
 
 const skills = [
-  { icon: 'c', name: 'Embedded C', tone: 'blue' },
-  { icon: 'cplusplus', name: 'C++', tone: 'blue' },
-  { icon: 'arduino', name: 'Arduino', tone: 'teal' },
+  { icon: 'cplusplus', name: 'Embedded C / C++', tone: 'blue' },
+  { icon: 'python', name: 'Python', tone: 'python' },
+  { icon: 'linux', name: 'Embedded Linux', tone: 'ink' },
   { icon: 'stmicroelectronics', name: 'STM32', tone: 'cyan' },
-  { icon: 'espressif', name: 'ESP32', tone: 'orange' },
+  { icon: 'mqtt', name: 'IoT & MQTT', tone: 'teal' },
   { icon: 'adobephotoshop', name: 'Photoshop', tone: 'blue' },
   { icon: 'adobeillustrator', name: 'Illustrator', tone: 'orange' },
   { icon: 'figma', name: 'Figma', tone: 'figma' },
   { icon: 'adobeaftereffects', name: 'After Effects', tone: 'purple' },
   { icon: 'adobepremierepro', name: 'Premiere Pro', tone: 'violet' },
   { icon: 'blender', name: 'Blender', tone: 'blender' },
-  { mark: '3D', name: '3D & Motion', tone: 'coral' },
+  { mark: '3D', name: '3D & Motion · TouchDesigner (learning)', tone: 'coral' },
 ];
 
 export default function SkillsShowcase() {

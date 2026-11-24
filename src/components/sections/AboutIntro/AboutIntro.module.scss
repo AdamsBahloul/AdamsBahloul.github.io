@@ -36,14 +36,14 @@
 }
 
 .supportingCopy {
-  width: min(86vw, 92rem);
+  width: min(60vw, 92rem);
   margin: clamp(2rem, 5vh, 4rem) auto 0;
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: clamp(2rem, 3.5vw, 4.4rem);
-  font-weight: 600;
+  font-size: clamp(1rem, 1.5vw, 4.4rem);
+  font-weight: 300;
   letter-spacing: -.07em;
-  line-height: 1.03;
+  line-height: 1.4;
   text-align: center;
 }
 
